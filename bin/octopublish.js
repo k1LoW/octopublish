@@ -17,7 +17,12 @@ const info = (message) => {
     console.log(clc.green(message));
 };
 
-// const argv = require('minimist')(process.argv.slice(2));
+let release = true;
+const argv = require('minimist')(process.argv.slice(2));
+if (argv.hasOwnProperty('release')) {
+    release = argv.release;
+}
+
 const g = new github({
     timeout: 5000
 });
@@ -42,8 +47,10 @@ exec(`git tag ${currentVersionTag}`);
 info(`Tagged ${currentVersionTag}.`);
 exec('git push --follow-tags');
 info('Pushed commits and tags.');
-exec('npm publish');
-info(`Published ${packagejson.name} ${currentVersionTag} to https://www.npmjs.com/`);
+if (release) {
+    exec('npm publish');
+    info(`Published ${packagejson.name} ${currentVersionTag} to https://www.npmjs.com/`);
+}
 
 let previousVersion = '0.0.0';
 let v0_tag_exist = false;
