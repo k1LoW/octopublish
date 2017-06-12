@@ -40,7 +40,7 @@ const currentVersionTag = `v${currentVersion}`;
 
 exec(`git tag ${currentVersionTag}`);
 info(`Tagged ${currentVersionTag}.`);
-exec(`git push origin ${currentVersionTag}`);
+exec('git push --follow-tags');
 info('Pushed commits and tags.');
 exec('npm publish');
 info(`Published ${packagejson.name} ${currentVersionTag} to https://www.npmjs.com/`);
