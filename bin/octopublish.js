@@ -42,6 +42,8 @@ exec(`git tag ${currentVersionTag}`);
 info(`Tagged ${currentVersionTag}.`);
 exec(`git push origin ${currentVersionTag}`);
 info('Pushed commits and tags.');
+exec('npm publish');
+info(`Published ${packagejson.name} ${currentVersionTag} to https://www.npmjs.com/`);
 
 let previousVersion = '0.0.0';
 let v0_tag_exist = false;
