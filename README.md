@@ -2,6 +2,18 @@
 
 > [octorelease](https://github.com/mizzy/octorelease) for npm
 
+## Install
+
+```console
+$ npm install octopublish --save-dev
+```
+
+or
+
+```console
+$ npm install octopublish -g
+```
+
 ## Usage
 
 ```console
