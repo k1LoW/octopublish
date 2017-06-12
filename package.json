@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "description": "octorelease for npm",
   "keywords": [
-    "npm", "github"
+    "npm",
+    "github"
   ],
   "bin": {
     "octopublish": "bin/octopublish.js"
@@ -12,10 +13,10 @@
   "license": "MIT",
   "dependencies": {
     "cli-color": "^1.2.0",
+    "findup-sync": "^1.0.0",
     "github": "^9.2.0",
     "js-yaml": "^3.8.4",
     "minimist": "^1.2.0",
-    "root-require": "^0.3.1",
     "semver": "^5.3.0"
   }
 }

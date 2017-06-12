@@ -6,6 +6,8 @@ const fs = require('fs');
 const path = require('path');
 const github = require('github');
 const exec = require('child_process').execSync;
+const findup = require('findup-sync');
+const packagejson = require(findup('package.json'));
 const semver = require('semver');
 const clc = require('cli-color');
 const error = (message) => {
@@ -33,9 +35,7 @@ g.authenticate({
     token: config['github.com'][0]['oauth_token']
 });
 
-const name = require('root-require')('package.json').name;
-
-const currentVersion = require('root-require')('package.json').version;
+const currentVersion = packagejson.version;
 const currentVersionTag = `v${currentVersion}`;
 
 exec(`git tag ${currentVersionTag}`);
@@ -43,8 +43,12 @@ info(`Tagged ${currentVersionTag}.`);
 exec(`git push origin ${currentVersionTag}`);
 info('Pushed commits and tags.');
 
-let previousVersion = semver.clean('0.0.0');
+let previousVersion = '0.0.0';
+let v0_tag_exist = false;
 exec('git tag').toString().split('\n').forEach((t) => {
+    if (semver.clean(t) === '0.0.0') {
+        v0_tag_exist = true;
+    }
     if (semver.valid(t)
         && semver.gt(semver.clean(t), previousVersion)
         && semver.gt(currentVersion, semver.clean(t))) {
@@ -52,7 +56,10 @@ exec('git tag').toString().split('\n').forEach((t) => {
     }
 });
 
-const previousVersionTag = `v${previousVersion}`;
+let previousVersionTag = '';
+if (previousVersion !== '0.0.0' || v0_tag_exist) {
+    previousVersionTag = `v${previousVersion}`;
+}
 
 let log = exec(`git log ${previousVersionTag}..${currentVersionTag} --grep=Merge`).toString();
 const ownerRepo = exec('git remote -v | grep origin').toString().match(/([\w-]+\/[\w-]+)\.git/)[1];
