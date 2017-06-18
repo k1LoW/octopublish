@@ -53,10 +53,10 @@ if (release) {
 }
 
 let previousVersion = '0.0.0';
-let v0_tag_exist = false;
+let v0TagExist = false;
 exec('git tag').toString().split('\n').forEach((t) => {
     if (semver.clean(t) === '0.0.0') {
-        v0_tag_exist = true;
+        v0TagExist = true;
     }
     if (semver.valid(t)
         && semver.gt(semver.clean(t), previousVersion)
@@ -66,7 +66,7 @@ exec('git tag').toString().split('\n').forEach((t) => {
 });
 
 let previousVersionTag = '';
-if (previousVersion !== '0.0.0' || v0_tag_exist) {
+if (previousVersion !== '0.0.0' || v0TagExist) {
     previousVersionTag = `v${previousVersion}`;
 }
 
@@ -82,23 +82,23 @@ log.split(/commit/).forEach((lines) => {
     if (!matches) {
         return;
     }
-    let pull_id = matches[1];
-    let url = `https://github.com/${owner}/${repo}/pull/${pull_id}`;
+    let pullId = matches[1];
+    let url = `https://github.com/${owner}/${repo}/pull/${pullId}`;
     promises.push(g.pullRequests.get({
         owner: owner,
         repo: repo,
-        number: pull_id
+        number: pullId
     }).then((pr) => {
         let title = pr.data.title;
         description.push(`* [${title}](${url})`);
         return g.issues.createComment({
             owner: owner,
             repo: repo,
-            number: pull_id,
+            number: pullId,
             body: `Released as ${currentVersionTag}.`,
         });
     }));
-    info(`Added a release comment to the pull request #${pull_id}`);
+    info(`Added a release comment to the pull request #${pullId}`);
 });
 
 Promise.all(promises)
