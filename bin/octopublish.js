@@ -48,7 +48,7 @@ info(`Tagged ${currentVersionTag}.`);
 exec('git push --follow-tags');
 info('Pushed commits and tags.');
 if (release) {
-    exec('npm publish');
+    exec('npm publish --access=public');
     info(`Published ${packagejson.name} ${currentVersionTag} to https://www.npmjs.com/`);
 }
 
