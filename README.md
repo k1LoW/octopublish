@@ -1,4 +1,4 @@
-# octopublish [![npm](https://img.shields.io/npm/v/octopublish.svg)]()
+# octopublish [![npm](https://img.shields.io/npm/v/octopublish.svg)](https://www.npmjs.com/package/octopublish)
 
 > [octorelease](https://github.com/mizzy/octorelease) for npm
 
